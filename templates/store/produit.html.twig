@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil |
+	{{parent()}}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col mt-3">
+
+				{% for flashMessage in app.flashes('info') %}
+					<div class="alert alert-info">
+						{{flashMessage}}
+					</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<h1 class="text-center" id="produitName">{{produit.nom}}</h1>
+		</div>
+		<div class="row">
+			<div class="col-3">
+				<img class="img-thumbnail" src="{{produit.image}}" alt="{{produit.nom}}"></div>
+			<div class="col-9">
+				<p>
+					<strong>Reférence :</strong>
+					{{produit.reference}}</p>
+				<p>
+					<strong>Description :</strong>
+					{{produit.descriptionCourte }}
+					{{produit.descriptionLongue}}
+				</p>
+				<p>
+					<strong>Prix :</strong>
+					{{produit.tarif }}
+					€
+				</p>
+				<p>
+					<strong>Commander notre produits des maintenant: :</strong>
+				</p>
+				<form method='post' action="">
+					<div class="row my-3">
+						<div class="col-3">
+							<input type="number" name="quantite" class="form-control" id="quantity" value="1">
+							<input type="hidden" name="produit" value="{{produit.id}}">
+						</div>
+						<div class="col">
+							<input type="submit" value="Ajouter au panier" name="ajout" class="btn btn-success"></div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

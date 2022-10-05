@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<div class="container-fluid px-4">
+		<a class="navbar-brand" href="{{path('home')}}">Super Boutique</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse flex-row-reverse" id="navbarNav">
+			<ul class="navbar-nav ">
+				{% for menu in listMenu %}
+					<li class="nav-item  ">
+						<a class="nav-link {% if loop.index == 1 %} active {% endif %}" href="{{menu.url}}" title="{{menu.title}}">{{menu.text}}</a>
+					</li>
+
+
+				{% endfor %}
+				{% if countPanier is defined %}
+					<p>
+						<a href="{{path('panier')}}">
+							<span class="badge rounded-pill text-bg-success">{{countPanier}}</span>
+						</a>
+					</p>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</nav>

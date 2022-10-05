@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil |
+	{{parent()}}
+{% endblock %}
+
+{% block body %}
+	<div class="container ">
+		<div class="row">
+			<h1 class="text-center mt-3 mb-4">SuperBoutique</h1>
+		</div>
+		<div class="row">
+
+			{% for produit in produits %}
+				<div class="card col-4">
+					<img src="{{produit.image}}" class="card-img-top" alt="{{produit.nom}}">
+					<div class="card-body">
+						<h5 class="card-title">{{produit.nom}}</h5>
+						<p class="card-text">{{produit.descriptionCourte}}</p>
+						<p class="card-text">
+							<strong>{{produit.tarif}}
+								€</strong>
+						</p>
+						<a href="{{path('produit', {id:produit.id, slug:produit.nom|replace({' ':'-'})})}}" class="btn btn-primary">Voir le produit</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

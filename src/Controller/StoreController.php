@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use App\Entity\Commande;
+use App\Entity\CommandeDetail;
 use App\Repository\ProduitRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,15 +28,15 @@ class StoreController extends AbstractController
     }
 
     #[Route('/panier', name: 'panier')]
-    public function panier(SessionInterface $session, ProduitRepository $produitRepository, Request $request): Response
+    public function panier(SessionInterface $session, ProduitRepository $produitRepository, Request $request, ManagerRegistry $doctrine): Response
     {
-        if ($request->request->get('commander')) {
-            $session->clear();
-        }
 
         $panier = $session->get("panier", []);
         $dataPanier = [];
+        $produits = [];
         $total = 0;
+
+
 
         foreach ($panier as $id => $quantite) {
             $produit = $produitRepository->find($id);
@@ -42,6 +45,26 @@ class StoreController extends AbstractController
                 "quantite" => $quantite
             ];
             $total += $produit->getTarif() * $quantite;
+        }
+
+
+        foreach ($dataPanier as $key => $value) {
+            if ($key == 'produit') {
+                array_push($produits, $value);
+            }
+        }
+
+        if ($request->request->get('commander')) {
+
+
+            $commande = new Commande();
+            $commande->setDateCreation(new \DateTime());
+            $em = $doctrine->getManager();
+            $em->persist($commande);
+            $em->flush();
+
+
+            $session->clear();
         }
 
 
@@ -100,5 +123,10 @@ class StoreController extends AbstractController
         }
 
         return $this->render('parts/menu.html.twig', ['listMenu' => $listMenu]);
+    }
+
+    public function footer()
+    {
+        return $this->render('parts/footer.html.twig');
     }
 }

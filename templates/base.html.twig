@@ -19,6 +19,9 @@
 	<body>
 		{{render(controller("App\\Controller\\StoreController::menu"))}}
 		{% block body %}{% endblock %}
+		{% block footer %}
+			{{ render(controller("App\\Controller\\StoreController::footer"))}}
+		{% endblock %}
 
 
 		{% block scripts %}

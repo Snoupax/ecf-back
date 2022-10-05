@@ -16,6 +16,7 @@
 					<th>Image</th>
 					<th>Produit</th>
 					<th>Quantité</th>
+					<th>Prix</th>
 					<th>Total</th>
 				</tr>
 			</thead>
@@ -23,9 +24,11 @@
 				{% for element in dataPanier %}
 					<tr>
 						<td class="col-3"><img class="img-thumbnail" src="{{element.produit.image}}" alt=""></td>
-						<td>{{ element.produit.nom }}</td>
-						<td class="text-end">{{ element.produit.tarif }}€</td>
+						<td>
+							<a href="{{path('produit',{id:element.produit.id, slug:element.produit.nom|replace({' ':'-'})})}}">{{element.produit.nom}}</a>
+						</td>
 						<td>{{ element.quantite }}</td>
+						<td class="text-end">{{ element.produit.tarif }}€</td>
 						<td class="text-end">{{ element.quantite * element.produit.tarif }}€</td>
 
 					</tr>
@@ -34,15 +37,14 @@
 						<td colspan="5" class="text-center">Votre panier est vide</td>
 					</tr>
 				{% endfor %}
-			</tbody>
-			<tfoot>
 				<tr>
 					<td colspan="3">Total</td>
 					<td class="text-end">{{ total }}
 						€</td>
 
 				</tr>
-			</tfoot>
+			</tbody>
+
 		</table>
 		<form method='post' action="">
 			<class="col">
